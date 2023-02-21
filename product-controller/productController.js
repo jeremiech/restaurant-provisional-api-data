@@ -1,16 +1,17 @@
 const Router=require('express').Router()
 const Product=require('../product-model/Product')
-
+const SupplierModel=require('../supplierModel/SupplierMod')
 
 Router.post('/add-product',async(req,res)=>{
     const product=await new Product({
         name: req.body.name,
     description: req.body.description,
-    supplier: {
+    supplier: new SupplierModel({
         fullName: req.body.fullName,
         email: req.body.email,
-        mobile: req.body.mobile
-    },
+        mobile: req.body.mobile,
+        address:req.body.address
+    }),
     unit_price: req.body.unit_price,
    
     wholeSellerPrice: req.body.wholeSellerPrice,
@@ -25,15 +26,18 @@ Router.post('/add-product',async(req,res)=>{
 
 Router.get('/list',async(req,res)=>{
     const product=await Product.find()
+    .populate('supplier')
+    .select('name status')
     if(product!=null){
         res.json(product)
     }
 })
 Router.get('/list/:name',async(req,res)=>{
     const {name}=req.params
+    
     const product=await Product.findOne({name:name})
     if(product!=null){
-        res.json(product)
+        res.json(product.unit_price)
     }
 })
 
@@ -50,7 +54,17 @@ Router.put('/edit/:name',async(req,res)=>{
             name: req.body.name,
             unit_price: req.body.unit_price,                    
         }}
-        )
+        ).then(prod=>res.send(`${prod.name} has updated successfully`))
+        .catch(err=>res.status(501).send("there was error while trying to update"))
+})
+
+
+
+Router.get('/:name',async(req,res)=>{
+    const {name}=req.params
+    const product=await Product.find({name:name})
+    res.send(`${product.length}`)
+    // res.send(product.name[name]);
 })
 
 

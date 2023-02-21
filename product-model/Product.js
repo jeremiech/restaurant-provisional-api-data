@@ -1,13 +1,11 @@
 const mongoose = require('mongoose')
+const SupplierModel=require('../supplierModel/SupplierMod')
+const supplierSchema = require('../SupplierSchema/SupSchema')
+const SupplierSchema=require('../SupplierSchema/SupSchema')
 const Product = new mongoose.Schema({
     name: String,
     description: String,
-    supplier: {
-        fullName: String,
-        email: String,
-        mobile: String,
-        address:String,
-    },
+    supplier:supplierSchema,
     unit_price: Number,
     status: {
         type: String,
