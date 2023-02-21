@@ -27,7 +27,7 @@ Router.post('/add-product',async(req,res)=>{
 Router.get('/list',async(req,res)=>{
     const product=await Product.find()
     .populate('supplier')
-    .select('name status')
+    .select('-_id')
     if(product!=null){
         res.json(product)
     }

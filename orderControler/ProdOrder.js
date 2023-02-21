@@ -5,8 +5,9 @@ const Product = require("../product-model/Product")
 
 
 async function updateProductStutus(err,products){
+    let stat=""
     if(!err){
-        const stat=products.map(st=>{
+         stat=products.map(st=>{
             return st.status
         });
     }
