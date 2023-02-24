@@ -41,6 +41,23 @@ Router.get('/list/:name',async(req,res)=>{
     }
 })
 
+Router.get('/list/:status',async(req,res)=>{
+    const {status}=req.params
+    let list=""
+    if(status==="in"){
+        list=await Product.find({status:{$eq:"in"}})
+    }else if(status==="out"){
+        list=await Product.find({status:{$eq:"out"}})
+
+
+    }else{
+        list=null
+    }
+    res.json(list)
+    
+})
+
+
 Router.delete('/delete/:name',async(req,res)=>{
     const {name}=req.params
     await Product.findOneAndDelete({name:name})

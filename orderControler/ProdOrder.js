@@ -52,7 +52,6 @@ Router.post('/make-order/:name', async (req, res) => {
     }
 })
 
-// Router.get("/list",async)
 
 
 module.exports = Router
