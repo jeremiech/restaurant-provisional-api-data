@@ -54,7 +54,7 @@ async function updateStock(req, res) {
     const stockin = {
         name: req.params.name,
         quantity: math.subtract(stock.stock_in.quantity, req.body.quantity),
-        unit_price: stock.unit_price,
+        // unit_price: stock.unit_price,
         // total: math.subtract(stock.total, req.body.quantity)
 
 
