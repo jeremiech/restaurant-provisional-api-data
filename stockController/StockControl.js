@@ -43,7 +43,14 @@ async function updateQuantity(req) {
 
 
 
-
+Router.get("/stock-in",async(req,res)=>{
+    const stock=await Stock.find().select("stock_in -_id")
+    res.json(stock)
+})
+Router.get("/stock-out",async(req,res)=>{
+    const stock=await Stock.find().select("stock_out -_id")
+    res.json(stock)
+})
 
 
 Router.post('/add-stock', async (req, res) => {
