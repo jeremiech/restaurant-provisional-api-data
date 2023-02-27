@@ -3,6 +3,7 @@ const math = require('mathjs')
 const Order = require('../orderModel/OrderModel')
 const Product = require("../product-model/Product")
 
+const Status = require('../stock-status/StokStatus')
 
 async function updateProductStutus(err,products){
     let stat=""
@@ -35,6 +36,17 @@ Router.post('/make-order/:name', async (req, res) => {
             .select('unit_price -_id')
             unitPrice=price.unit_price
             total=math.multiply(unitPrice,quantity)
+
+
+            await Status.create({
+                name: req.body.name,
+                total:math.multiply(req.body.quantity,req.body.unit_price),
+                 quantity: req.body.quantity,
+                  unit_price: req.body.unit_price,
+                 status:"out",
+            })
+            
+
                         await new Order({
                             name:name,
                             quantity:quantity,

@@ -1,5 +1,4 @@
 const mongoose =require('mongoose')
-const Supplier=require('../SupplierSchema/SupSchema')
 const Stock=new mongoose.model('Stock',new mongoose.Schema({
     name:{
         type:String,
@@ -9,39 +8,28 @@ const Stock=new mongoose.model('Stock',new mongoose.Schema({
         type:Number,
         required:true
     },
-    supplier:Supplier,
+    supplier:{
+        fullName:String,
+        email:String,
+        mobile:String,
+        address:String
+    },
     unit_price:{
         type:Number,
         required:true
     },
-    stock_in:{
-        name:String,
-        dateCreated:{
-            type:Date,
-            default:Date.now()
 
-        },
-        quantity:Number,
-        unit_price:Number,
-        total:Number
-    },
-    stock_out:{
-        name:String,
-        dateCreated:{
-            type:Date,
-            default:Date.now()
-
-        },
-        quantity:Number,
-        unit_price:Number,
-        total:Number
-    },
     total_remain:Number,
     dateCreated:{
         type:Date,
         default:Date.now()
 
-    }
+    },
+
+    expireDate:{
+        type:Date,
+        required:true
+    },
 
 
 }))
