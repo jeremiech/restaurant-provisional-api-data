@@ -16,7 +16,7 @@ mongoose.connect(process.env.URL).then(()=>{
     app.use('/order',order)
     app.use('/docs',swags.serve,swags.setup(stockDocumentedOject))
     app.use('/stock',stock)
-    app.use('/user-login',UserSignup)
+    app.use('/user-log',UserSignup)
 
 
 

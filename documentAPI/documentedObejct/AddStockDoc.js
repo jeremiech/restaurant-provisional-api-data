@@ -200,16 +200,19 @@ const stock_in_status = {
 
 const updateStockByName={
     tags:['stock'],
-    description:"update stock by correcting their name",
-    
-    parameters:[
+    summary: "stock name",
+    description: "find stock of single stock by name",
+    parameters: [
+
         {
-            name:"name",
-            in:"params",
-            description:"pass stock name to update"
+            name: "name",
+            in: 'query',
+            description: "stock name",
+            type: "string",
+
         }
-    ]
-,
+    ],
+
 
     requestBody:{
         content:{
@@ -252,6 +255,89 @@ const updateStockByName={
 
 
 
+const userSingup={
+    tags:["login"],
+    description:"create new user signup",
+    requestBody:{
+        content:{
+            "application/json":{
+                schema:{
+                    type:"object",
+                    properties:{
+                        fullName:{
+                            type:"string",
+                            description:"user fullname "
+                        },
+                        email:{
+                            type:"email",
+                            description:"email of user",
+
+                        },
+                        mobile:{
+                            type:"string"
+                        },
+                        password:{
+                            type:"string"
+                        }
+                        
+                    }
+                }
+            }
+        }
+    },
+    responses:{
+        200:{
+            description:"Ok",
+            content:{
+                "application/json":{
+                    schema:{
+                        type:"object",
+                        user:[]
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+const userLogin={
+    tags:['login'],
+    description:"user login here ...",
+    requestBody:{
+            content:{
+                "application/json":{
+                    schema:{
+                        type:"object"
+                    }
+                }
+            }
+    },
+    responses:{
+        200:{
+            description:"Ok",
+            content:{
+                "application/json":{
+                    schema:{
+                        type:"object"
+                    }
+
+                }
+            }
+        },
+        403:{
+            description:"forbiden request"
+        },
+        500:{
+            description:"internal server error"
+        }
+    }
+}
+
 
 
 const stock = {
@@ -272,9 +358,17 @@ const stock = {
     '/stock/stock-out': {
         get: stockOutStatus
     },
-    'stock/edit/:name':{
+    'stock/edit/name':{
         put:updateStockByName
+    },
+    '/user-log/signup':{
+        post:userSingup
+    },
+    '/user-log/signin':{
+        post:userLogin
+
     }
+    
 
 }
 module.exports = stock

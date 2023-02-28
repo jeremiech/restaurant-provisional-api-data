@@ -12,7 +12,8 @@ servers:[
 }
 ],
 tags:[
-    {name:"stock"}
+    {name:"stock"},
+    {name:"login"}
 ],
 paths:
     {
