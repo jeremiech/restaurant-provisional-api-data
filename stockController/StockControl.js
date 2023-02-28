@@ -20,7 +20,7 @@ async function updateQuantity(req) {
         total = math.add(stok.total_remain, newStockQty)
 
         await Status.create({
-            name: req.body.name,
+            name: req.params.name,
             total: math.multiply(req.body.quantity, req.body.unit_price),
             quantity: req.body.quantity,
             unit_price: req.body.unit_price,
@@ -35,7 +35,7 @@ async function updateQuantity(req) {
         return await stok.updateOne({ $set: { quantity: qty, total_remain: total } })
     } else {
         await Status.create({
-            name: req.body.name,
+            name: req.params.name,
             total: math.multiply(req.body.quantity, req.body.unit_price),
             quantity: req.body.quantity,
             unit_price: req.body.unit_price,

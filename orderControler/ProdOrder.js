@@ -39,7 +39,7 @@ Router.post('/make-order/:name', async (req, res) => {
 
 
             await Status.create({
-                name: req.body.name,
+                name: name,
                 total:math.multiply(req.body.quantity,req.body.unit_price),
                  quantity: req.body.quantity,
                   unit_price: req.body.unit_price,
