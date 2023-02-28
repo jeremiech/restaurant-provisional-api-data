@@ -1,8 +1,9 @@
 const express=require('express')
 const mongoose =require('mongoose')
 const cors=require('cors')
-const bodyParser=require('body-parser')
+const swags=require('swagger-ui-express')
 const stock=require('./stockController/StockControl')
+const stockDocumentedOject=require('./documentAPI/StockDocumentation')
 require('dotenv/config')
 const UserSignup=require('./longinController/Signup')
 const order=require('./latestOrderController/OrderMake')
@@ -13,6 +14,7 @@ mongoose.connect(process.env.URL).then(()=>{
     app.use(express.urlencoded({extended:true}))
     app.use(express.json())
     app.use('/order',order)
+    app.use('/docs',swags.serve,swags.setup(stockDocumentedOject))
     app.use('/stock',stock)
     app.use('/user-login',UserSignup)
 

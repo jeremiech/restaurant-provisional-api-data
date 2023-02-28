@@ -71,8 +71,7 @@ Router.get("/stock-in", async (req, res) => {
      res.status(200).json({ data: stock })
 
     }catch{
-        res.status(501).json({message:"some mistake while trying to find stock in"})
-
+        res.status(501).json({message:"internal server error"})
     }
 
     
@@ -113,6 +112,12 @@ Router.put('/edit/:name', async (req, res) => {
 
 Router.get('/list', async (req, res) => {
     const stock = await Stock.find().select('-_id')
+    res.json(stock)
+})
+
+Router.get('/list/:name', async (req, res) => {
+    const {name}=req.params
+    const stock = await Stock.find({name:name}).select('-_id')
     res.json(stock)
 })
 
