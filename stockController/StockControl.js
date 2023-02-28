@@ -97,7 +97,9 @@ Router.post('/add-stock', async (req, res) => {
 
 })
 async function editStock(req) {
-    return await Stock.updateOne({ $set: { quantity: req.body.quantity, unit_price: req.body.unit_price } })
+    const {name}=req.params
+    const stock = await Stock.findOne({ name: name })
+    return await stock.updateOne({ $set: { quantity: req.body.quantity, unit_price: req.body.unit_price } })
 }
 
 

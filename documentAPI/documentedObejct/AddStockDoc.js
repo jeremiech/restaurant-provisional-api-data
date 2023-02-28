@@ -198,6 +198,57 @@ const stock_in_status = {
     }
 }
 
+const updateStockByName={
+    tags:['stock'],
+    description:"update stock by correcting their name",
+    
+    parameters:[
+        {
+            name:"name",
+            in:"params",
+            description:"pass stock name to update"
+        }
+    ]
+,
+
+    requestBody:{
+        content:{
+           "application/json":{
+            schema:{
+                type:"object",
+                properties:{
+                    quantity:"number",
+                     unit_price:"number" 
+                }
+
+            }
+           }
+        }
+
+    },
+    
+    responses:{
+        200:{
+            description:"Ok",
+            content:{
+                "application/json":{
+                    schema:{
+                        type:"object",
+                        
+                    }
+
+                }
+            }
+        },
+        500:{
+            description:"internal server error"
+        },
+        403:{
+            description:"bad request"
+        }
+    }
+}
+
 
 
 
@@ -220,6 +271,9 @@ const stock = {
     },
     '/stock/stock-out': {
         get: stockOutStatus
+    },
+    'stock/edit/:name':{
+        put:updateStockByName
     }
 
 }
