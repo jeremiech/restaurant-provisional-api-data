@@ -199,7 +199,7 @@ const stock_in_status = {
 }
 
 const updateStockByName = {
-    tags: ['order'],
+    tags: ['stock'],
     summary: "stock name",
     description: "find stock of single stock by name",
     parameters: [
