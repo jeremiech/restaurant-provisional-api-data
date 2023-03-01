@@ -66,7 +66,7 @@ async function updateQuantity(req) {
 Router.get("/stock-in", async (req, res) => {
   
 
-     const stock=await  Status.find({status:"in"})
+     const stock=await  Status.find({status:"in"}).select("-_id -__v")
     try{
      res.status(200).json({ data: stock })
 

@@ -1,6 +1,6 @@
 const SignUp = require('../userSignModel/UserSignUp')
 const Router = require('express').Router()
-const auth=require('../userAuth/userAuth')
+const auth = require('../userAuth/userAuth')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const ValidationSchema = require('../userValidation/UserValidation')
@@ -20,38 +20,59 @@ Router.post('/signup', async (req, res) => {
     const hashPaswd = bcrypt.hashSync(password, 10)
     await SignUp.create({
         fullName, email, mobile, password: hashPaswd
-    },(err,user)=>{
-        if(!err){
+    }, (err, user) => {
+        if (!err) {
             const secret = process.env.SECRET_kEY
             const token = jwt.sign({ _id: user._id, email: user.email }, secret, { expiresIn: '1h' })
-            user.token=token
+            user.token = token
 
-            res.status(201).json({user:user.fullName,token:token})
+            res.status(201).json({ user: user.fullName, token: token })
         }
     })
-           
-        
+
+
+//  edit change to make user update his password
+
+
+    Router.post('/edit-password', async (req, res) => {
+        res.send(req.body)
+        // const {email}=req.body
+        // res.json(`${email}`)
+        // if(!email){
+        //     res.status(403).json({message:"forbiden request"})
+        // }
+        // await SignUp.findOne({email:email},(err,user)=>{
+        //     if(!err){
+        //         // user.updateOne({$set:{password:req.body.password}})
+        //         // res.status(200).json({message:"password changed successfully"})
+        //         res.json({data:user})
+        //     }
+
+        // })
+    })
+
+
 
 })
 
 
 
-Router.post('/signin', auth,async (req, res) => {
+Router.post('/signin', auth, async (req, res) => {
     const { email, password } = req.body
     const result = await SignUp.findOne({ email: email })
     const matchedPass = bcrypt.compareSync(password, result.password)
-    if (result && matchedPass){
+    if (result && matchedPass) {
         const token = jwt.sign({ _id: result._id, email: result.email }, secret, { expiresIn: '1h' })
-        result.token=token
+        result.token = token
 
-        try{
-            res.status(201).json({user:result.fullName})
-        }catch{
-            res.status(501).json({message:"there was mistake while trying loging you"})
+        try {
+            res.status(201).json({ user: result.fullName })
+        } catch {
+            res.status(501).json({ message: "there was mistake while trying loging you" })
         }
 
-    }else {
-        res.status(403).json({message:"Invalid user Login"})
+    } else {
+        res.status(403).json({ message: "Invalid user Login" })
     }
 
 

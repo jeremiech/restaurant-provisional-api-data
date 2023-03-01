@@ -4,6 +4,7 @@ const Stock = require('../stockModel/Stock')
 const Router = require('express').Router()
 const math = require('mathjs')
 const Status = require('../stock-status/StokStatus')
+const stock = require('../documentAPI/documentedObejct/AddStockDoc')
 
 
 async function updateRemainder(req) {
@@ -21,7 +22,7 @@ async function updateStock(req, res) {
             res.send(`the only stock remain: ${stock.total_remain}`)
         } else {
             await Status.create({
-                name: req.body.name,
+                name: req.params.name,
                 total: math.multiply(req.body.quantity, stock.unit_price),
                 quantity: req.body.quantity,
                 unit_price: stock.unit_price,
@@ -53,10 +54,41 @@ async function updateStock(req, res) {
 }
 
 Router.post('/make-order/:name', async (req, res) => {
-    const stock=await Stock.findOne({name:req.params.name}).select('total_remain -_id')
-    // res.json(`${stock.total_remain}`)
+
     const { name } = req.params
     await Stock.findOne({ name: name }).exec(updateStock(req, res))
+})
+
+
+async function updateStockForOrderRejection(req){
+    const stock=await Stock.findOne({name:req.body.name})
+    if(stock){
+        return stock.updateOne({$set:{total_remain:math.add(stock.total_remain,req.body.quantity)}})
+    }else {
+        return `No stock ${req.body.name} found`
+    }
+}
+
+
+Router.post('/cancel-order',async(req,res)=>{
+  const {reason}=req.body
+
+
+
+  if(reason==="cancelled"){
+    let stock=await Stock.findOne({name:req.body.name}).exec(updateStockForOrderRejection(req))
+    await Status.create({
+        name: req.body.name,
+        total: math.multiply(req.body.quantity, stock.unit_price),
+        quantity: req.body.quantity,
+        unit_price: stock.unit_price,
+        status: "cancelled",
+    })
+    res.json({message:`product ${req.body.name} has updated ${req.body.quantity} return`})
+  }
+
+    
+
 })
 
 

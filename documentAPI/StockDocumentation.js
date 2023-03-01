@@ -13,7 +13,8 @@ servers:[
 ],
 tags:[
     {name:"stock"},
-    {name:"login"}
+    {name:"login"},
+    {name:"order"}
 ],
 paths:
     {

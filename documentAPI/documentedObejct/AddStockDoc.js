@@ -198,8 +198,8 @@ const stock_in_status = {
     }
 }
 
-const updateStockByName={
-    tags:['stock'],
+const updateStockByName = {
+    tags: ['order'],
     summary: "stock name",
     description: "find stock of single stock by name",
     parameters: [
@@ -214,40 +214,40 @@ const updateStockByName={
     ],
 
 
-    requestBody:{
-        content:{
-           "application/json":{
-            schema:{
-                type:"object",
-                properties:{
-                    quantity:"number",
-                     unit_price:"number" 
-                }
+    requestBody: {
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        quantity: "number",
+                        unit_price: "number"
+                    }
 
+                }
             }
-           }
         }
 
     },
-    
-    responses:{
-        200:{
-            description:"Ok",
-            content:{
-                "application/json":{
-                    schema:{
-                        type:"object",
-                        
+
+    responses: {
+        200: {
+            description: "Ok",
+            content: {
+                "application/json": {
+                    schema: {
+                        type: "object",
+
                     }
 
                 }
             }
         },
-        500:{
-            description:"internal server error"
+        500: {
+            description: "internal server error"
         },
-        403:{
-            description:"bad request"
+        403: {
+            description: "bad request"
         }
     }
 }
@@ -255,44 +255,155 @@ const updateStockByName={
 
 
 
-const userSingup={
-    tags:["login"],
-    description:"create new user signup",
+const userSingup = {
+    tags: ["login"],
+    description: "create new user signup",
+    requestBody: {
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        fullName: {
+                            type: "string",
+                            description: "user fullname "
+                        },
+                        email: {
+                            type: "email",
+                            description: "email of user",
+
+                        },
+                        mobile: {
+                            type: "string"
+                        },
+                        password: {
+                            type: "string"
+                        }
+
+                    }
+                }
+            }
+        }
+    },
+    responses: {
+        200: {
+            description: "Ok",
+            content: {
+                "application/json": {
+                    schema: {
+                        type: "object",
+                        user: []
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+const userLogin = {
+    tags: ['login'],
+    description: "user login here ...",
+    requestBody: {
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object"
+                }
+            }
+        }
+    },
+    responses: {
+        200: {
+            description: "Ok",
+            content: {
+                "application/json": {
+                    schema: {
+                        type: "object"
+                    }
+
+                }
+            }
+        },
+        403: {
+            description: "forbiden request"
+        },
+        500: {
+            description: "internal server error"
+        }
+    }
+}
+
+const makeOrder = {
+    tags: ['order'],
+    requestBody: {
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        customerName: {
+                            type: "string",
+                            description: "customer name"
+                        },
+                        name: {
+                            type: "string"
+                        },
+                        quantity: {
+                            type: "number"
+                        }
+                    },
+                    example: {
+                        customerName: "john doe",
+                        name: "laptops",
+                        quantity: 200,
+
+                    }
+                }
+            }
+        }
+    },
+    responses:{
+        200:{
+            description:"Ok",
+            content:{
+                "application/json":{
+                    schema:{
+                        type:"object",
+                        example:{
+                            user:[]
+                        }
+                    }
+                }
+            }
+        },
+        400:{
+            description:"bad request"
+        },
+        500:{
+            description:"internal server error"
+        }
+    }
+}
+
+
+const cancelOrder={
+    tags:["stock"],
     requestBody:{
         content:{
             "application/json":{
                 schema:{
                     type:"object",
                     properties:{
-                        fullName:{
+                        name:{
                             type:"string",
-                            description:"user fullname "
-                        },
-                        email:{
-                            type:"email",
-                            description:"email of user",
+                            quantity:"number"
 
-                        },
-                        mobile:{
-                            type:"string"
-                        },
-                        password:{
-                            type:"string"
                         }
-                        
-                    }
-                }
-            }
-        }
-    },
-    responses:{
-        200:{
-            description:"Ok",
-            content:{
-                "application/json":{
-                    schema:{
-                        type:"object",
-                        user:[]
                     }
                 }
             }
@@ -301,42 +412,6 @@ const userSingup={
 }
 
 
-
-
-
-
-const userLogin={
-    tags:['login'],
-    description:"user login here ...",
-    requestBody:{
-            content:{
-                "application/json":{
-                    schema:{
-                        type:"object"
-                    }
-                }
-            }
-    },
-    responses:{
-        200:{
-            description:"Ok",
-            content:{
-                "application/json":{
-                    schema:{
-                        type:"object"
-                    }
-
-                }
-            }
-        },
-        403:{
-            description:"forbiden request"
-        },
-        500:{
-            description:"internal server error"
-        }
-    }
-}
 
 
 
@@ -358,17 +433,23 @@ const stock = {
     '/stock/stock-out': {
         get: stockOutStatus
     },
-    'stock/edit/name':{
-        put:updateStockByName
+    'stock/edit/name': {
+        put: updateStockByName
     },
-    '/user-log/signup':{
-        post:userSingup
+    '/user-log/signup': {
+        post: userSingup
     },
-    '/user-log/signin':{
-        post:userLogin
+    '/user-log/signin': {
+        post: userLogin
 
+    },
+    '/order/make-order':{
+        post:makeOrder
+    },
+    '/order/cancel-order':{
+        post:cancelOrder
     }
-    
+
 
 }
 module.exports = stock
