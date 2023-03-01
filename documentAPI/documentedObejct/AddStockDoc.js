@@ -392,7 +392,7 @@ const makeOrder = {
 
 
 const cancelOrder={
-    tags:["stock"],
+    tags:["order"],
     requestBody:{
         content:{
             "application/json":{
