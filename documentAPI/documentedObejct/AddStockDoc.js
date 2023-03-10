@@ -287,6 +287,22 @@ parameters:
     in:"query",
     description:"valid user email",
     required:true
+},
+{
+    name:"mobile",
+    required:true,
+    description:"user mobile cell phone",
+    schema:{
+        type:"string"
+    }
+},
+{
+    name:"password",
+    required:true,
+    schema:{
+        type:"string"
+    },
+    description:"user password"
 }
 
 ]
@@ -308,33 +324,6 @@ parameters:
 
 
 
-    // requestBody: {
-    //     content: {
-    //         "application/json": {
-    //             schema: {
-    //                 type: "object",
-    //                 properties: {
-    //                     fullName: {
-    //                         type: "string",
-    //                         description: "user fullname "
-    //                     },
-    //                     email: {
-    //                         type: "string",
-    //                         description: "email of user",
-
-    //                     },
-    //                     mobile: {
-    //                         type: "string"
-    //                     },
-    //                     password: {
-    //                         type: "string"
-    //                     }
-
-    //                 }
-    //             }
-    //         }
-    //     }
-    // },
     responses: {
         200: {
             description: "Ok",
@@ -358,26 +347,25 @@ parameters:
 const userLogin = {
     tags: ['login'],
     description: "user login here ...",
-    requestBody: {
-        content: {
-            "application/json": {
-                schema: {
-                    type: "object",
-                    properties:{
-                        email:{
-                            type:"string",
-                            description:"user email"
-                        },
-                        password:{
-                            type:"string",
-                            description:"user password"
-
-                        },
-                    }
-                }
-            }
-        }
+parameters:[
+    { 
+        name:"email",
+        description:"User email",
+        in:"query",
+        schema:{
+            type:"string"
+        },
+        required:true
     },
+    {
+        name:"password",
+        required:true,
+        schema:{
+            type:"string"
+        },
+        description:"user password"
+    }
+],
     responses: {
         200: {
             description: "Ok",
