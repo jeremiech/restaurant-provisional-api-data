@@ -278,27 +278,19 @@ parameters:
         type:"string"
     },
     required:true
-},
-{
-    name:"mobile",
-    schema:{
-        type:"string"
-    },
-    in:"query",
-    description:"valid user email",
-    required:true
-},
-{
+},{
     name:"mobile",
     required:true,
     description:"user mobile cell phone",
     schema:{
         type:"string"
     }
+    ,in:"query"
 },
 {
     name:"password",
-    required:true,
+    required:true
+    ,in:"query",
     schema:{
         type:"string"
     },
@@ -360,6 +352,7 @@ parameters:[
     {
         name:"password",
         required:true,
+        in:"query",
         schema:{
             type:"string"
         },
