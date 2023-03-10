@@ -258,33 +258,83 @@ const updateStockByName = {
 const userSingup = {
     tags: ["login"],
     description: "create new user signup",
-    requestBody: {
-        content: {
-            "application/json": {
-                schema: {
-                    type: "object",
-                    properties: {
-                        fullName: {
-                            type: "string",
-                            description: "user fullname "
-                        },
-                        email: {
-                            type: "email",
-                            description: "email of user",
 
-                        },
-                        mobile: {
-                            type: "string"
-                        },
-                        password: {
-                            type: "string"
-                        }
+// begin of paramters to hold user signup
 
-                    }
-                }
-            }
+parameters:
+   [{ name:"fullName",
+    in:"query",
+    description:"user full name",
+    required:false,
+    schema:{
+        type:"string"
         }
+},
+{ 
+    name:"email",
+    description:"User email",
+    in:"query",
+    schema:{
+        type:"string"
     },
+    required:true
+},
+{
+    name:"mobile",
+    schema:{
+        type:"string"
+    },
+    in:"query",
+    description:"valid user email",
+    required:true
+}
+
+]
+,
+
+
+
+
+
+
+// end of parameter
+
+
+
+
+
+
+
+
+
+
+    // requestBody: {
+    //     content: {
+    //         "application/json": {
+    //             schema: {
+    //                 type: "object",
+    //                 properties: {
+    //                     fullName: {
+    //                         type: "string",
+    //                         description: "user fullname "
+    //                     },
+    //                     email: {
+    //                         type: "string",
+    //                         description: "email of user",
+
+    //                     },
+    //                     mobile: {
+    //                         type: "string"
+    //                     },
+    //                     password: {
+    //                         type: "string"
+    //                     }
+
+    //                 }
+    //             }
+    //         }
+    //     }
+    // },
     responses: {
         200: {
             description: "Ok",
@@ -312,7 +362,18 @@ const userLogin = {
         content: {
             "application/json": {
                 schema: {
-                    type: "object"
+                    type: "object",
+                    properties:{
+                        email:{
+                            type:"string",
+                            description:"user email"
+                        },
+                        password:{
+                            type:"string",
+                            description:"user password"
+
+                        },
+                    }
                 }
             }
         }
@@ -403,6 +464,21 @@ const cancelOrder={
                             type:"string",
                             quantity:"number"
 
+                        }
+                    }
+                }
+            }
+        }
+    },
+    response:{
+        200:{
+            description:"Ok",
+            content:{
+                "application/json":{
+                    schema:{
+                        type:"object"
+                        ,example:{
+                            user:[]
                         }
                     }
                 }
