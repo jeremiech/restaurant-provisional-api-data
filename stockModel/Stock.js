@@ -8,11 +8,17 @@ const Stock=new mongoose.model('Stock',new mongoose.Schema({
         type:Number,
         required:true
     },
+
+    // {
+    //     fullName:{type:String},
+    //     email:{type:String},
+    //     mobile:{type:String},
+    //     address:{type:String}
+    // }
+
     supplier:{
-        fullName:String,
-        email:String,
-        mobile:String,
-        address:String
+        type:String,
+        required:true
     },
     unit_price:{
         type:Number,
@@ -28,7 +34,7 @@ const Stock=new mongoose.model('Stock',new mongoose.Schema({
 
     expireDate:{
         type:Date,
-        required:true
+        
     },
 
 

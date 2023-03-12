@@ -3,11 +3,11 @@ const Router = require('express').Router()
 const Stock = require('../stockModel/Stock')
 const Status = require('../stock-status/StokStatus')
 
-async function updateQuantity(req) {
+async function updateQuantity(req,res) {
 
-    if (req.body.expireDate==="" || req.body.expireDate === Date.now()) {
-        res.status(403).json({ message: "set exact expiration" })
-    }
+    // if (req.body.expireDate==="" || req.body.expireDate === Date.now()) {
+    //     res.status(403).json({ message: "set exact expiration" })
+    // }
 
 
 
@@ -33,6 +33,7 @@ async function updateQuantity(req) {
 
 
          await stok.updateOne({ $set: { quantity: qty, total_remain: total } })
+         return res.json({ message: `current Stock  has updated successfully` })
     } else {
         await Status.create({
             name: req.params.name,
@@ -42,19 +43,21 @@ async function updateQuantity(req) {
             status: "in",
         })
 
-         await Stock.create({
+          await Stock.create({
             name: req.body.name,
             quantity: req.body.quantity,
-            supplier: {
-                fullName: req.body.fullName,
-                email: req.body.email,
-                mobile: req.body.mobile,
-                address: req.body.address
-            },
+            supplier:req.body.supplier ,
             unit_price: req.body.unit_price,
+            // {
+            //     fullName: req.body.fullName,
+            //     email: req.body.email,
+            //     mobile: req.body.mobile,
+            //     address: req.body.address
+            // }
 
             total_remain: math.add(0, req.body.quantity)
         })
+        return res.json({ message: `new stock  has recorded successfully` })
 
     }
 
@@ -92,8 +95,8 @@ Router.get("/stock-out", async (req, res) => {
 
 Router.post('/add-stock', async (req, res) => {
     await Stock.findOne({ name: req.body.name })
-        .exec(updateQuantity(req))
-    res.status(200).json({ message: `new stock  has recorded successfully` })
+        .exec(updateQuantity(req,res))
+    
 
 })
 async function editStock(req) {
