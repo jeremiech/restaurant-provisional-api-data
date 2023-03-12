@@ -31,7 +31,7 @@ Router.post('/signup', async (req, res) => {
     })
 
 
-//  edit change to make user update his password
+//  edit | change to make user update his password
 
 
     Router.post('/edit-password', async (req, res) => {

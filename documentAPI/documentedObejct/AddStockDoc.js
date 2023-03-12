@@ -288,6 +288,7 @@ parameters:
     ,in:"query"
 },
 {
+    
     name:"password",
     required:true
     ,in:"query",

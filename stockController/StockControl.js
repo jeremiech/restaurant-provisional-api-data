@@ -20,7 +20,7 @@ async function updateQuantity(req) {
         total = math.add(stok.total_remain, newStockQty)
 
         await Status.create({
-            name: req.params.name,
+            name: req.body.name,
             total: math.multiply(req.body.quantity, req.body.unit_price),
             quantity: req.body.quantity,
             unit_price: req.body.unit_price,
@@ -32,7 +32,7 @@ async function updateQuantity(req) {
 
 
 
-        return await stok.updateOne({ $set: { quantity: qty, total_remain: total } })
+         await stok.updateOne({ $set: { quantity: qty, total_remain: total } })
     } else {
         await Status.create({
             name: req.params.name,
@@ -42,7 +42,7 @@ async function updateQuantity(req) {
             status: "in",
         })
 
-        return await Stock.create({
+         await Stock.create({
             name: req.body.name,
             quantity: req.body.quantity,
             supplier: {
@@ -66,7 +66,7 @@ async function updateQuantity(req) {
 Router.get("/stock-in", async (req, res) => {
   
 
-     const stock=await  Status.find({status:"in"}).select("-_id -__v")
+     const stock=await  Status.find({status:"in"})
     try{
      res.status(200).json({ data: stock })
 
@@ -93,7 +93,7 @@ Router.get("/stock-out", async (req, res) => {
 Router.post('/add-stock', async (req, res) => {
     await Stock.findOne({ name: req.body.name })
         .exec(updateQuantity(req))
-    res.json({ message: `new stock  has recorded successfully` })
+    res.status(200).json({ message: `new stock  has recorded successfully` })
 
 })
 async function editStock(req) {
