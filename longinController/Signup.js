@@ -57,7 +57,7 @@ Router.post('/signup', async (req, res) => {
 
 
 
-Router.post('/signin', auth, async (req, res) => {
+Router.post('/signin', async (req, res) => {
     const { email, password } = req.body
     const result = await SignUp.findOne({ email: email })
     const matchedPass = bcrypt.compareSync(password, result.password)

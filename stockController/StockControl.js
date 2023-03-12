@@ -97,7 +97,7 @@ Router.post('/add-stock', async (req, res) => {
 async function editStock(req,res) {
     const {name}=req.params
     const stock = await Stock.findOne({ name: name })
-    await stock.updateOne({ $set: { quantity: req.body.quantity, unit_price: req.body.unit_price } })
+    await stock.updateOne({ $set: { quantity: req.body.quantity, unit_price: req.body.unit_price,total_remain:req.body.quantity } })
     return res.json(`${stock.name} has updated successfully`)
 }
 
