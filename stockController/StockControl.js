@@ -36,7 +36,7 @@ async function updateQuantity(req,res) {
          return res.json({ message: `current Stock  has updated successfully` })
     } else {
         await Status.create({
-            name: req.params.name,
+            name: req.body.name,
             total: math.multiply(req.body.quantity, req.body.unit_price),
             quantity: req.body.quantity,
             unit_price: req.body.unit_price,
@@ -48,12 +48,7 @@ async function updateQuantity(req,res) {
             quantity: req.body.quantity,
             supplier:req.body.supplier ,
             unit_price: req.body.unit_price,
-            // {
-            //     fullName: req.body.fullName,
-            //     email: req.body.email,
-            //     mobile: req.body.mobile,
-            //     address: req.body.address
-            // }
+          
 
             total_remain: math.add(0, req.body.quantity)
         })
@@ -99,18 +94,19 @@ Router.post('/add-stock', async (req, res) => {
     
 
 })
-async function editStock(req) {
+async function editStock(req,res) {
     const {name}=req.params
     const stock = await Stock.findOne({ name: name })
-    return await stock.updateOne({ $set: { quantity: req.body.quantity, unit_price: req.body.unit_price } })
+    await stock.updateOne({ $set: { quantity: req.body.quantity, unit_price: req.body.unit_price } })
+    return res.json(`${stock.name} has updated successfully`)
 }
 
 
 
 Router.put('/edit/:name', async (req, res) => {
     const { name } = req.params
-    const stock = await Stock.findOne({ name: name }).exec(editStock(req))
-    res.json(`${stock.name} has updated successfully`)
+    const stock = await Stock.findOne({ name: name }).exec(editStock(req,res))
+    
 
 })
 

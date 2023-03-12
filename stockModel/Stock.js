@@ -9,12 +9,7 @@ const Stock=new mongoose.model('Stock',new mongoose.Schema({
         required:true
     },
 
-    // {
-    //     fullName:{type:String},
-    //     email:{type:String},
-    //     mobile:{type:String},
-    //     address:{type:String}
-    // }
+   
 
     supplier:{
         type:String,
