@@ -60,12 +60,13 @@ Router.post('/make-order/:name', async (req, res) => {
 })
 
 
-async function updateStockForOrderRejection(req){
+async function updateStockForOrderRejection(req,res){
     const stock=await Stock.findOne({name:req.body.name})
     if(stock){
-        return stock.updateOne({$set:{total_remain:math.add(stock.total_remain,req.body.quantity)}})
-    }else {
-        return `No stock ${req.body.name} found`
+         stock.updateOne({$set:{total_remain:math.add(stock.total_remain,req.body.quantity)}})
+    return res.json({message:`product ${req.body.name} has updated ${req.body.quantity} return`})
+        }else {
+        return res.status(500).json({message:`No stock ${req.body.name} found`})
     }
 }
 
@@ -76,7 +77,7 @@ Router.post('/cancel-order',async(req,res)=>{
 
 
   if(reason==="cancelled"){
-    let stock=await Stock.findOne({name:req.body.name}).exec(updateStockForOrderRejection(req))
+    let stock=await Stock.findOne({name:req.body.name}).exec(updateStockForOrderRejection(req,res))
     await Status.create({
         name: req.body.name,
         total: math.multiply(req.body.quantity, stock.unit_price),
@@ -84,7 +85,7 @@ Router.post('/cancel-order',async(req,res)=>{
         unit_price: stock.unit_price,
         status: "cancelled",
     })
-    res.json({message:`product ${req.body.name} has updated ${req.body.quantity} return`})
+    
   }
 
     
