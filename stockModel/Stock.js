@@ -9,7 +9,9 @@ const Stock=new mongoose.model('Stock',new mongoose.Schema({
         required:true
     },
 
-   
+    category:{
+        type:String
+    },
 
     supplier:{
         type:String,

@@ -46,6 +46,7 @@ async function updateQuantity(req,res) {
           await Stock.create({
             name: req.body.name,
             quantity: req.body.quantity,
+            category:req.body.category,
             supplier:req.body.supplier ,
             unit_price: req.body.unit_price,
           
