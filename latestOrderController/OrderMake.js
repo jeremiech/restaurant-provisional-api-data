@@ -9,7 +9,7 @@ const stock = require('../documentAPI/documentedObejct/AddStockDoc')
 
 async function updateRemainder(req) {
     const stock=await Stock.findOne({name:req.params.name}).select('total_remain -_id')
-    return Stock.updateOne({name:req.params.name},{ $set: { total_remain: math.subtract(stock.total_remain, req.body.quantity) } })
+    return stock.updateOne({name:req.params.name},{ $set: { total_remain: math.subtract(stock.total_remain, req.body.quantity) } })
 }
 
 
