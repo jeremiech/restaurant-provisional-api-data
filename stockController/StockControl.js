@@ -4,7 +4,7 @@ const Stock = require('../stockModel/Stock')
 const Status = require('../stock-status/StokStatus')
 
 async function updateQuantity(req,res) {
-
+    const {name}=req.body
     // if (req.body.expireDate==="" || req.body.expireDate === Date.now()) {
     //     res.status(403).json({ message: "set exact expiration" })
     // }
@@ -20,7 +20,7 @@ async function updateQuantity(req,res) {
         total = math.add(stok.total_remain, newStockQty)
 
         await Status.create({
-            name: req.body.name,
+            name: name.toLowerCase(),
             total: math.multiply(req.body.quantity, req.body.unit_price),
             quantity: req.body.quantity,
             unit_price: req.body.unit_price,
@@ -33,21 +33,22 @@ async function updateQuantity(req,res) {
 
 
          await stok.updateOne({ $set: { quantity: qty, total_remain: total } })
+
          .then((stock)=>{
-            return res.json({ message: `an existed Stock  has updated successfully`, data:stok})
+            return res.json({ message: `an existed Stock  has updated successfully`, result:stock})
          })
          
     } else {
-        await Status.create({
-            name: req.body.name,
+        await Status.create({ 
+            name: name.toLowerCase(),
             total: math.multiply(req.body.quantity, req.body.unit_price),
             quantity: req.body.quantity,
             unit_price: req.body.unit_price,
             status: "in",
         })
-
+       
           await Stock.create({
-            name: req.body.name,
+            name:name.toLowerCase() ,
             quantity: req.body.quantity,
             category:req.body.category,
             supplier:req.body.supplier ,
@@ -103,14 +104,17 @@ async function editStock(req,res) {
     const {name}=req.params
     const stock = await Stock.findOne({ name: name })
     await stock.updateOne({ $set: { quantity: req.body.quantity, unit_price: req.body.unit_price,total_remain:req.body.quantity } })
-    return res.json(`${stock.name} has updated successfully`)
+    .then(()=>{
+        return res.json(`${name} has updated successfully`)
+
+    })
 }
 
 
 
 Router.put('/edit/:name', async (req, res) => {
     const { name } = req.params
-    const stock = await Stock.findOne({ name: name }).exec(editStock(req,res))
+ await Stock.findOne({ name: name.toLowerCase() }).exec(editStock(req,res))
     
 
 })
@@ -123,10 +127,22 @@ Router.get('/list', async (req, res) => {
 
 Router.get('/list/:name', async (req, res) => {
     const {name}=req.params
+
     const stock = await Stock.find({name:name}).select('-_id')
     res.json(stock)
 })
 
+
+Router.get('/status/cancelled',async(req,res)=>{
+ await Status.find({status:"cancelled"}).then(data=>{
+    res.json(data)
+ }).catch(err=>res.status(500).json({message:err.message}))
+})
+Router.get('/status',async(req,res)=>{
+    await Status.find({}).then(data=>{
+       res.json(data)
+    }).catch(err=>res.status(500).json({message:err.message}))
+   })
 
 
 
