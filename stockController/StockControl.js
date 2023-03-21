@@ -33,7 +33,10 @@ async function updateQuantity(req,res) {
 
 
          await stok.updateOne({ $set: { quantity: qty, total_remain: total } })
-         return res.json({ message: `current Stock  has updated successfully` })
+         .then((stock)=>{
+            return res.json({ message: `an existed Stock  has updated successfully`, data:stok})
+         })
+         
     } else {
         await Status.create({
             name: req.body.name,
@@ -52,9 +55,10 @@ async function updateQuantity(req,res) {
           
 
             total_remain: math.add(0, req.body.quantity)
+        }).then(data=>{
+            return res.json(data)
         })
-        return res.json({ message: `new stock  has recorded successfully` })
-
+        
     }
 
 
