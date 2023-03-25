@@ -7,7 +7,13 @@ const ValidationSchema=Joi.object({
         minDomainSegments:2,
         tlds:{allow:['net','com']}}),
         password:Joi.string().required(),
-        mobile:Joi.number().required()
+        mobile:Joi.number().required(),
+        roles:{
+                StockManager:Joi.string(),
+                Employee:Joi.string(),
+                Admin:Joi.string()
+            
+        }
 
     
 

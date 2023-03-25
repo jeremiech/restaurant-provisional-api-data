@@ -1,19 +1,32 @@
 const jwt=require('jsonwebtoken')
-const secret=process.env.SECRET_kEY
+require('dotenv/config')
+const {SECRET_kEY}=process.env
 
 
-function authanticate(req,res,next){
-    const token=req.body.token || req.query.token || req.headers['x-access-token']
-    if(!token){
-       return  res.status(404).json({message:"token is required for authentication"})
-    }
-    try{
-        const decoded=jwt.verify(token,secret)
-        req.user=decoded
-    }catch{
-       return  res.status(400).send("there was mistake from yur request")
-    }
-    return next()
+
+
+async function authanticate(req,res,next){
+    const authHeader=req.headers.Authorization || req.headers.authorization
+    if(!authHeader?.startsWith('Bearer ')) res.status(401).send('un-authorized header')
+    const token=authHeader.split(' ')[1]
+    jwt.verify(token,SECRET_kEY,(err,decoded)=>{
+        try{
+            if(err) res.json({message:err.message})
+            req.roles=decoded.userDetails.roles
+            req.email=decoded.userDetails.email
+            next()
+        }catch(e){
+            res.send(e.message)
+        }
+
+    })
+
+
+
+
+
+
+    
 
 }
 module.exports=authanticate

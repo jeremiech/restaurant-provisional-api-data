@@ -4,6 +4,11 @@ const user=new mongoose.model('UserSignUp',new mongoose.Schema({
     email:String,
     mobile:String,
     password:String,
-    token:String
+    token:String,
+    roles:{
+        StockManager:String,
+        Employee:String,
+        Admin:String
+    }
 }))
 module.exports=user
