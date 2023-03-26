@@ -21,9 +21,9 @@ mongoose.connect(process.env.URL).then(()=>{
     
     app.use('/docs',swags.serve,swags.setup(stockDocumentedOject))
    
-    app.use('/refresh',handleRefreshToken)
     
     app.use('/user-log',UserSignup)
+    app.use('/refresh',handleRefreshToken)
     app.use(verifyJwt)
     app.use('/stock',stock)
     app.use('/order',order)
