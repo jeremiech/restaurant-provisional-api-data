@@ -82,14 +82,14 @@ Router.post('/signin', async (req, res) => {
                 email: email,
                 roles: role
             }
-        }, SECRET_kEY, { expiresIn: 60 * 60 })
+        }, SECRET_kEY, { expiresIn: '1day' })
 
         const refreshToken = jwt.sign({
             userDetails: {
                 email: email,
                 roles: role
             }
-        }, REFRESH_KEY, { expiresIn: '1day' })
+        }, REFRESH_KEY, { expiresIn: '2day' })
 
         // result.token=refreshToken
         await result.updateOne({ $set: { token: refreshToken } })
