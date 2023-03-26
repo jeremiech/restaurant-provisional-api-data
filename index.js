@@ -16,15 +16,17 @@ mongoose.connect(process.env.URL).then(()=>{
     app.use(cors())
     app.use(express.urlencoded({extended:true}))
     app.use(express.json())
-    app.use(verifyJwt)
+    
     app.use(cookieParser())
-    app.use('/order',order)
+    
     app.use('/docs',swags.serve,swags.setup(stockDocumentedOject))
-    app.use('/stock',stock)
+   
     app.use('/refresh',handleRefreshToken)
+    
     app.use('/user-log',UserSignup)
-
-
+    app.use(verifyJwt)
+    app.use('/stock',stock)
+    app.use('/order',order)
 
     app.listen(process.env.PORT,()=>console.log(`Server is listening to ${process.env.PORT}`))
 
