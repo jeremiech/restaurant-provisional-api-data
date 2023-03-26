@@ -1,7 +1,11 @@
 
  function verifyRoles(...roleList) {
     return (req, res, next) => {
-
+        if (req.method !== "POST"){
+            return res.json('invalid method')
+        }else if(req.url !== 'https://store-mgt-api.onrender.com/user-log/signup'){
+            return res.json('invalid url')
+        }
        try{
         if (!req?.roles) return res.status(209).send('you must be signed role')
         const allowedRoles = [...roleList]
