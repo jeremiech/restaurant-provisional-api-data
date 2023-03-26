@@ -15,7 +15,7 @@
         if (!result) return res.status(209).send("wrong role supplied")
         next()
        }catch(e){
-        res.send(e.message)
+       return res.send(e.message)
 
        }
 
