@@ -27,7 +27,7 @@ mongoose.connect(process.env.URL).then(()=>{
     app.use(verifyJwt)
     app.use('/stock',stock)
     app.use('/order',order)
-
+    app.use('*',require('./unhandledroute'))
     app.listen(process.env.PORT,()=>console.log(`Server is listening to ${process.env.PORT}`))
 
     

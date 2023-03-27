@@ -50,7 +50,7 @@ async function updateStock(req, res) {
 
 
         }
-    } else res.send(`no stock ${req.params.name} Remain`)
+    } else return res.send(`no stock ${req.params.name} Remain`)
 
 }
 
